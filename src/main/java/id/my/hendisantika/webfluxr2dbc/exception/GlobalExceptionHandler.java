@@ -40,4 +40,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
+
+    private Mono<EntityResponse<ApiError>> buildResponseEntity(ApiError apiError) {
+        log.error("GlobalExceptionHandler::buildResponseEntity exception {}", apiError.getMessage());
+        return EntityResponse.fromObject(apiError).build();
+    }
 }
