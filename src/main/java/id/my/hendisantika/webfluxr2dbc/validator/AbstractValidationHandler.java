@@ -1,5 +1,9 @@
 package id.my.hendisantika.webfluxr2dbc.validator;
 
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
+
 import javax.xml.validation.Validator;
 
 /**
@@ -22,4 +26,6 @@ public abstract class AbstractValidationHandler<T, U extends Validator> {
         this.validationClass = clazz;
         this.validator = validator;
     }
+
+    abstract protected Mono<ServerResponse> addProduct(T validBody, final ServerRequest originalRequest);
 }
