@@ -1,9 +1,11 @@
 package id.my.hendisantika.webfluxr2dbc.validator;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import javax.xml.validation.Validator;
@@ -48,5 +50,9 @@ public abstract class AbstractValidationHandler<T, U extends Validator> {
                 return onValidationErrors(errors, body, request);
             }
         });
+    }
+
+    protected Mono<ServerResponse> onValidationErrors(Errors errors, T invalidBody, final ServerRequest request) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.getAllErrors().toString());
     }
 }
