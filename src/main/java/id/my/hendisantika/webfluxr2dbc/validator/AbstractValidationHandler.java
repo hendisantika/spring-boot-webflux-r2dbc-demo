@@ -28,4 +28,6 @@ public abstract class AbstractValidationHandler<T, U extends Validator> {
     }
 
     abstract protected Mono<ServerResponse> addProduct(T validBody, final ServerRequest originalRequest);
+
+    abstract protected Mono<ServerResponse> updateProduct(T validBody, final ServerRequest originalRequest);
 }
