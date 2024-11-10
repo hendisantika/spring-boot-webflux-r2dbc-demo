@@ -34,4 +34,9 @@ public class ProductHandler extends AbstractValidationHandler<Product, RequestVa
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                 .body(productService.getAllProducts(), Product.class);
     }
+
+    public Mono<ServerResponse> getProductById(ServerRequest request) {
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                .body(productService.getProductById(Long.parseLong(request.pathVariable("id"))), Product.class);
+    }
 }
