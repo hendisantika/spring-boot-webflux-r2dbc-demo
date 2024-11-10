@@ -47,4 +47,12 @@ public class ProductHandler extends AbstractValidationHandler<Product, RequestVa
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                 .body(productMono, Product.class);
     }
+
+    @Override
+    protected Mono<ServerResponse> updateProduct(Product validBody, ServerRequest originalRequest) {
+        Mono<Product> productMono = Mono.just(validBody)
+                .flatMap(p -> productService.updateProduct(p, Long.parseLong(originalRequest.pathVariable("id"))));
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                .body(productMono, Product.class);
+    }
 }
