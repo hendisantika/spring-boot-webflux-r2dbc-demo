@@ -29,4 +29,9 @@ public class ProductService {
                 .switchIfEmpty(Mono.error(new RuntimeException("Product not found")))
                 .map(productMapper::mapToModel);
     }
+
+    public Mono<Product> getProductById(Long id) {
+        return productRepository.findById(id).map(productMapper::mapToModel)
+                .switchIfEmpty(Mono.error(new RuntimeException("Product not found")));
+    }
 }
