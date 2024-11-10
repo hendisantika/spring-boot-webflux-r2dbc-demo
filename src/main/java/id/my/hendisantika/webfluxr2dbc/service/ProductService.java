@@ -1,6 +1,7 @@
 package id.my.hendisantika.webfluxr2dbc.service;
 
 import id.my.hendisantika.webfluxr2dbc.domain.ProductEntity;
+import id.my.hendisantika.webfluxr2dbc.exception.EntityNotFoundException;
 import id.my.hendisantika.webfluxr2dbc.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,5 +42,15 @@ public class ProductService {
                 .switchIfEmpty(Mono.error(new RuntimeException("Product not found")))
                 .doOnError(e -> log.error("Add product getting exception {}", e.getMessage()));
         return productEntity.map(productMapper::mapToModel);
+    }
+
+    public Mono<Product> updateProduct(Product product, Long id) {
+        return productRepository.findById(id)
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Product not found")))
+                .flatMap(currentProduct -> {
+                    ProductEntity productEntity = productMapper.mapToEntity(product);
+                    productEntity.setId(currentProduct.getId());
+                    return productRepository.save(productEntity).map(productMapper::mapToModel);
+                }).doOnError(e -> log.error("Update product getting exception {}", e.getMessage()));
     }
 }
