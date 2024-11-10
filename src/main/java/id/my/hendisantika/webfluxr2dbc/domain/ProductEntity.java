@@ -24,7 +24,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product implements Serializable {
+public class ProductEntity implements Serializable {
     @Id
     private Long id;
     private String productName;

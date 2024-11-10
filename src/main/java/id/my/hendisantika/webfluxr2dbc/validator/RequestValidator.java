@@ -1,6 +1,6 @@
 package id.my.hendisantika.webfluxr2dbc.validator;
 
-import id.my.hendisantika.webfluxr2dbc.domain.Product;
+import id.my.hendisantika.webfluxr2dbc.domain.ProductEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -23,14 +23,14 @@ public class RequestValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Product.class.isAssignableFrom(clazz);
+        return ProductEntity.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productName", "Product Name is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productType", "Product Type is required");
-        Product request = (Product) target;
+        ProductEntity request = (ProductEntity) target;
         if (request.price() == null && request.quantity() == null) {
             errors.rejectValue("price", "404",
                     new Object[]{MINIMUM_QUANTITY}, "The price might be minimum [" + MINIMUM_QUANTITY + "]");
