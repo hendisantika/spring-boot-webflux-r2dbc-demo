@@ -1,8 +1,11 @@
 package id.my.hendisantika.webfluxr2dbc.service;
 
+import id.my.hendisantika.webfluxr2dbc.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,4 +23,10 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
+    public Flux<Product> getAllProducts() {
+        return productRepository.findAll()
+                .switchIfEmpty(Mono.error(new RuntimeException("Product not found")))
+                .map(productMapper::mapToModel);
+    }
 }
