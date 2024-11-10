@@ -1,5 +1,6 @@
 package id.my.hendisantika.webfluxr2dbc.service;
 
+import id.my.hendisantika.webfluxr2dbc.domain.ProductEntity;
 import id.my.hendisantika.webfluxr2dbc.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,5 +34,12 @@ public class ProductService {
     public Mono<Product> getProductById(Long id) {
         return productRepository.findById(id).map(productMapper::mapToModel)
                 .switchIfEmpty(Mono.error(new RuntimeException("Product not found")));
+    }
+
+    public Mono<Product> addProduct(Product product) {
+        Mono<ProductEntity> productEntity = productRepository.save(productMapper.mapToEntity(product))
+                .switchIfEmpty(Mono.error(new RuntimeException("Product not found")))
+                .doOnError(e -> log.error("Add product getting exception {}", e.getMessage()));
+        return productEntity.map(productMapper::mapToModel);
     }
 }
