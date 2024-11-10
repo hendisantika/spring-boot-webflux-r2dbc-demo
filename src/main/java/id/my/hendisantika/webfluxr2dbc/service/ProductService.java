@@ -53,4 +53,12 @@ public class ProductService {
                     return productRepository.save(productEntity).map(productMapper::mapToModel);
                 }).doOnError(e -> log.error("Update product getting exception {}", e.getMessage()));
     }
+
+    public Mono<Void> deleteProduct(Long id) {
+        return productRepository.findById(id)
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Product not found")))
+                .flatMap(currentProduct -> {
+                    return productRepository.deleteById(currentProduct.getId());
+                });
+    }
 }
