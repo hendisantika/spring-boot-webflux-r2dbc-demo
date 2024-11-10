@@ -31,7 +31,6 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-
     public Flux<Product> getAllProducts() {
         return productRepository.findAll()
                 .switchIfEmpty(Mono.error(new RuntimeException("Product not found")))
