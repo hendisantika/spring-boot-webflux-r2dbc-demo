@@ -2,6 +2,7 @@ package id.my.hendisantika.webfluxr2dbc.mapper;
 
 import id.my.hendisantika.webfluxr2dbc.domain.ProductEntity;
 import id.my.hendisantika.webfluxr2dbc.model.Product;
+import org.mapstruct.Mapper;
 
 /**
  * Created by IntelliJ IDEA.
