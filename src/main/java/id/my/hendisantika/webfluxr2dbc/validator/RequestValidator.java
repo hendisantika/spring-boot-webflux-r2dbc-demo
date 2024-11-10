@@ -31,7 +31,7 @@ public class RequestValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productName", "Product Name is required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productType", "Product Type is required");
         ProductEntity request = (ProductEntity) target;
-        if (request.price() == null && request.quantity() == null) {
+        if (request.getPrice() == null && request.getQuantity() == null) {
             errors.rejectValue("price", "404",
                     new Object[]{MINIMUM_QUANTITY}, "The price might be minimum [" + MINIMUM_QUANTITY + "]");
             errors.rejectValue("quantity", "404",
