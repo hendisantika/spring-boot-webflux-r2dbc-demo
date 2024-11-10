@@ -5,7 +5,6 @@ import id.my.hendisantika.webfluxr2dbc.exception.EntityNotFoundException;
 import id.my.hendisantika.webfluxr2dbc.mapper.ProductMapper;
 import id.my.hendisantika.webfluxr2dbc.model.Product;
 import id.my.hendisantika.webfluxr2dbc.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -23,10 +22,15 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+    }
+
 
     public Flux<Product> getAllProducts() {
         return productRepository.findAll()
