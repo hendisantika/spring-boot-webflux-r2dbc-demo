@@ -4,7 +4,11 @@ import id.my.hendisantika.webfluxr2dbc.model.Product;
 import id.my.hendisantika.webfluxr2dbc.service.ProductService;
 import id.my.hendisantika.webfluxr2dbc.validator.AbstractValidationHandler;
 import id.my.hendisantika.webfluxr2dbc.validator.RequestValidator;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,5 +27,11 @@ public class ProductHandler extends AbstractValidationHandler<Product, RequestVa
     public ProductHandler(ProductService productService) {
         super(Product.class, new RequestValidator());
         this.productService = productService;
+    }
+
+    public Mono<ServerResponse> getAllProducts(ServerRequest request) {
+        //We can manage pagination
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                .body(productService.getAllProducts(), Product.class);
     }
 }
