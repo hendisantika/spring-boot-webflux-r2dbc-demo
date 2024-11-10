@@ -4,6 +4,7 @@ import id.my.hendisantika.webfluxr2dbc.model.Product;
 import id.my.hendisantika.webfluxr2dbc.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,5 +54,11 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
         return productService.updateProduct(product, id);
+    }
+
+    @DeleteMapping("/product/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteProduct(@PathVariable("id") Long id) {
+        return productService.deleteProduct(id);
     }
 }
