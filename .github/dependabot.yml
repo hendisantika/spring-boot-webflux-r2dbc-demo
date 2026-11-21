@@ -68,10 +68,8 @@ updates:
     commit-message:
       prefix: "build(deps)"
     ignore:
-      # Stay on the JDK 25 LTS line; only accept patch/minor image updates
+      # Stay on the JDK 25 LTS line (image major = JDK version); only accept minor/patch updates
       - dependency-name: "eclipse-temurin"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "maven"
         update-types: ["version-update:semver-major"]
 
   # Services in compose.yaml

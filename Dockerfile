@@ -1,12 +1,13 @@
 # Build stage
-FROM maven:3.9-eclipse-temurin-26-alpine AS build
+FROM eclipse-temurin:25-jdk-alpine AS build
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
-COPY pom.xml $HOME
-RUN mvn -B dependency:go-offline --fail-never
-COPY . $HOME
-RUN mvn -B package -DskipTests
+COPY mvnw pom.xml $HOME/
+COPY .mvn $HOME/.mvn
+RUN ./mvnw -B dependency:go-offline --fail-never
+COPY src $HOME/src
+RUN ./mvnw -B package -DskipTests
 
 # Extract layers
 FROM eclipse-temurin:25-jre AS builder
